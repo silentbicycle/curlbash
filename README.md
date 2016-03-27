@@ -13,6 +13,8 @@ reasons. A reasonable effort is made to test it with bash, mksh, pdksh,
 dash, and other common shells that attempt to be POSIX-compliant /
 compatible with the Bourne shell. (In other words, bash-isms are bugs.)
 
+curlbash is distributed under the ISC license.
+
 
 # Usage
 
