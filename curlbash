@@ -177,6 +177,5 @@ if [ $CONFIRM = 1 ]; then
         exit 0
     fi
 else
-    run "${CACHE_FILE}"
-    cleanup "${CACHE_FILE}"
+    run "${CACHE_FILE}" && cleanup "${CACHE_FILE}"
 fi
