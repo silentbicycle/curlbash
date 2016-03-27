@@ -26,13 +26,15 @@ USE_SUDO=0
 EXPECTED_SHA256=0
 FETCH_AND_EXIT=0
 USE_CACHE=1
+DELETE_AFTER_EXEC=1
 PAGER=${PAGER:-less}
 SUDO=${SUDO:-sudo}
 
 usage() {
     echo "curlbash version ${CURLBASH_VERSION} by Scott Vokes"
-    echo "Usage: curlbash [-c] [-e SHA256] [-f | -r] [-h] [-v] URL"
+    echo "Usage: curlbash [-c] [-d] [-e SHA256] [-f | -r] [-h] [-v] URL"
     echo "  -c           ignore cache"
+    echo "  -d           don't delete cached downloads"
     echo "  -e SHA256    expect this SHA256, or exit"
     echo "  -f           fetch and exit"
     echo "  -h           print this help and exit"
@@ -63,12 +65,16 @@ run() {
 }
 
 cleanup() {
-    log "Deleting $1"
-    rm "$1"
+    if [ $DELETE_AFTER_EXEC -gt 0 ]; then
+        log "Deleting $1"
+        rm "$1"
+    else
+        log "Skipping deletion"
+    fi
 }
 
 parse_args() {
-    args=`getopt ce:fhrsv $*`
+    args=`getopt cde:fhrsv $*`
     if [ $? != 0 ]; then
         usage
         exit 1
@@ -81,6 +87,9 @@ parse_args() {
         in
             -c)                 # ignore cache
                 USE_CACHE=0
+                shift;;
+            -d)                 # don't delete download
+                DELETE_AFTER_EXEC=0
                 shift;;
             -e)                 # compare hash
                 EXPECTED_SHA256="$2"
@@ -125,7 +134,7 @@ fi
 parse_args $*
 
 if [ -z $URL ]; then
-    usage x
+    usage
     exit 1
 fi
 

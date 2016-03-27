@@ -19,8 +19,9 @@ curlbash uses SHA-256 for hashing. It will check for `sha256` or
 
 # Usage
 
-    Usage: curlbash [-c] [-e SHA256] [-f | -r] [-h] [-v] URL
+    Usage: curlbash [-c] [-d] [-e SHA256] [-f | -r] [-h] [-v] URL
       -c           ignore cache
+      -d           don't delete cached downloads
       -e SHA256    expect this SHA256, or exit
       -f           fetch and exit
       -h           print this help and exit
